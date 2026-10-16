@@ -108,11 +108,14 @@ button:hover {
 
 #pieceArea {
   border: 1px solid black;
+  display: grid;
+  grid-column: auto;
 }
 
 #dragArea {
   border: 1px solid black;
   position: relative;
+  display: flex;
 }
 
 #sequenceSelectArea {
@@ -131,4 +134,20 @@ button:hover {
 
 #testDragBlock {
   border: 1px solid black;
+  width: 100px;
+  height: 50px;
+}
+
+#draggableItemButton {
+  border: 1px solid black;
+}
+
+#startBlock {
+  border: 1px solid black;
+  width: 50%;
+  height: 100px;
+  justify-self: center;
+  align-content: center;
+  position: relative;
+  align-self: center;
 }

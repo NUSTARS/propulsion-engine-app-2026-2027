@@ -12,12 +12,15 @@
 
       <!-- Area where blocks can be selected to be added to drag area (left column) -->
       <div id="pieceArea">
-
+        <button onclick="createDraggableDiv('test 1')" id="draggableItemButton">Piece 1</button>
+        <button onclick="createDraggableDiv('test 2')" id="draggableItemButton">Piece 2</button>
+        <button onclick="createDraggableDiv('test 3')" id="draggableItemButton">Piece 3</button>
       </div>
 
 
       <!-- Main area where blocks are dragged into/put in sequence (center column) -->
       <div id="dragArea">
+        <div id="startBlock">Top Block</div>
         <div class="draggableItem" id="testDragBlock">Draggable Block Test</div>
       </div>
 
