@@ -26,6 +26,8 @@ const createWindow = () => {
   });
 
   mainWindow.loadFile('setup_renderer.html');
+
+  mainWindow.openDevTools();
 }
 
 

@@ -16,16 +16,21 @@ function compareDistanceToAllStackItems(element) {
 
   let topBlockRect = topBlock.getBoundingClientRect();
   let elementRect = element.getBoundingClientRect();
+  let dragAreaRect = dragArea.getBoundingClientRect();
 
   // Finds where the closest distance between top of dragged piece and bottom of each stack piece
   let minX = topBlockRect.left;
   let maxX = topBlockRect.right;
 
-  let horizontalBuffer = 5000;
-  let verticalBuffer = 2000;
+  let elementCenter = (elementRect.left + elementRect.right) / 2;
+
+  let horizontalBuffer = 50;
+  let verticalBuffer = 50;
+
+  console.log(elementCenter, maxX, elementCenter, minX);
 
   // First check if y is within horizontal stack bounds
-  if (elementRect.right < minX - horizontalBuffer || elementRect.left > maxX + horizontalBuffer) {
+  if (elementCenter > maxX + horizontalBuffer || elementCenter < minX - horizontalBuffer) {
 
     // Out of horizontal range of main stack, cannot add to stack
     return -1;
@@ -38,8 +43,10 @@ function compareDistanceToAllStackItems(element) {
   for (let i = 1; i < mainSequenceStack.length; i++) {
     let curYComparison = Math.abs(mainSequenceStack[i].getBoundingClientRect().bottom - elementRect.top);
 
-    closestYComparison = min(closestYComparison, curYComparison);
-    closestPieceIndex = i;
+    if (closestYComparison != Math.min(closestYComparison, curYComparison)) {
+      closestYComparison = curYComparison;
+      closestPieceIndex = i;
+    }
   }
 
   if (closestYComparison < verticalBuffer) {
@@ -50,6 +57,25 @@ function compareDistanceToAllStackItems(element) {
 }
 
 
+function updateMainStackVisuals() {
+  let lastBottom = topBlock.getBoundingClientRect().bottom - dragArea.getBoundingClientRect().top;
+
+  let topBlockRect = topBlock.getBoundingClientRect();
+  let dragAreaRect = dragArea.getBoundingClientRect();
+
+  for (let i = 1; i < mainSequenceStack.length; i++) {
+    mainSequenceStack[i].style.top = lastBottom + "px";
+    mainSequenceStack[i].style.left = ((topBlockRect.left + topBlockRect.right) / 2) - (mainSequenceStack[i].getBoundingClientRect().width / 2) - dragAreaRect.left + "px";
+    lastBottom = mainSequenceStack[i].getBoundingClientRect().bottom - dragAreaRect.top;
+  }
+}
+
+
+window.addEventListener('resize', () => {
+  updateMainStackVisuals();
+});
+
+
 function addDraggability(element) {
   let offsetX, offsetY;
   let cur_x;
@@ -57,6 +83,13 @@ function addDraggability(element) {
   element.addEventListener("mousedown", e => {
     offsetX = e.offsetX;
     offsetY = e.offsetY;
+
+    // Handle when dragged element is in the main sequence stack
+    if (mainSequenceStack.includes(element)) {
+      const elementIndex = mainSequenceStack.indexOf(element);
+      mainSequenceStack.splice(elementIndex, 1); // magic value 1 means remove 1 element
+      updateMainStackVisuals();
+    }
 
     function onMove(e) {
       const rect = dragArea.getBoundingClientRect();
@@ -74,7 +107,7 @@ function addDraggability(element) {
 
       cur_x = x;
 
-      checkCombination(element);
+      //checkCombination(element);
     }
 
     function onUp() {
@@ -98,23 +131,24 @@ function addDraggability(element) {
 
       } else if (closestPieceIndex != -1) {
 
-        let otherPiece = mainSequenceStack[closestPieceIndex];
-        let otherPieceRect = otherPiece.getBoundingClientRect();
+        // let otherPiece = mainSequenceStack[closestPieceIndex];
+        // let otherPieceRect = otherPiece.getBoundingClientRect();
 
         // Element dropped next to stack (insert or place at bottom)
-        let bottomPosition = otherPieceRect.bottom - otherPieceRect.height;
-        let leftPosition = otherPieceRect.left - otherPieceRect.width;
+        // let bottomPosition = otherPieceRect.bottom - otherPieceRect.height;
+        // let leftPosition = otherPieceRect.left - otherPieceRect.width;
 
-        element.style.top = bottomPosition + "px";
-        element.style.left = leftPosition + "px";
+        // element.style.top = bottomPosition + "px";
+        // element.style.left = leftPosition + "px";
 
         // Let go
-        window.removeEventListener("mousemove", onMove);
-        window.removeEventListener("mouseup", onUp);
+        // window.removeEventListener("mousemove", onMove);
+        // window.removeEventListener("mouseup", onUp);
 
-        // Add to main stack
-        mainSequenceStack.appendChild(element);
+        // Add to main stack at closest index found
+        mainSequenceStack.splice(closestPieceIndex + 1, 0, element);
 
+        updateMainStackVisuals();
       }
 
 
