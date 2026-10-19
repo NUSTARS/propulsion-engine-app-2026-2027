@@ -135,6 +135,7 @@ button:hover {
 
 #testDragBlock {
   border: 1px solid black;
+  background-color: whitesmoke;
   width: 100px;
   height: 50px;
 }

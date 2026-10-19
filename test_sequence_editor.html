@@ -27,7 +27,12 @@
 
       <!-- Area with specific sequence select and create new file button -->
       <div id="sequenceSelectArea">
-
+        <button>Refresh Saved Sequences</button>
+        <div id="savedSequencesDisplay">
+          <button>Example Seq.</button>
+        </div>
+        <input type="text" id="filenameInput" placeholder="Input filename..."/>
+        <button onclick="saveCurrentSequence()">Save Current Sequence</button>
       </div>
 
 

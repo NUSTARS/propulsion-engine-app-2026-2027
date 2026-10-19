@@ -75,3 +75,8 @@ ipcMain.on('load-main', (_event, newPage) => {
   mainWindow.loadFile(newPage);
 });
 
+
+
+ipcMain.on('save-sequence', (_event, sequenceArray, filename) => {
+  console.log(filename, sequenceArray);
+});

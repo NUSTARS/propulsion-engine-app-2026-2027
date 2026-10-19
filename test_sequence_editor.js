@@ -5,6 +5,7 @@
 // constants
 const dragArea = document.getElementById("dragArea");
 const topBlock = document.getElementById("startBlock");
+const filenameInput = document.getElementById("filenameInput");
 
 
 // variables
@@ -27,7 +28,6 @@ function compareDistanceToAllStackItems(element) {
   let horizontalBuffer = 50;
   let verticalBuffer = 50;
 
-  console.log(elementCenter, maxX, elementCenter, minX);
 
   // First check if y is within horizontal stack bounds
   if (elementCenter > maxX + horizontalBuffer || elementCenter < minX - horizontalBuffer) {
@@ -36,6 +36,7 @@ function compareDistanceToAllStackItems(element) {
     return -1;
 
   }
+
 
   let closestYComparison = Math.abs(topBlockRect.bottom - elementRect.top);
   let closestPieceIndex = 0;
@@ -55,6 +56,30 @@ function compareDistanceToAllStackItems(element) {
     return -1;
   }
 }
+
+
+
+function convertSequenceToDicts() {
+  let sequenceDictArray = [];
+  for (let i = 1; i < mainSequenceStack.length; i++) {
+    let currentDict = {}
+    currentDict["id"] = mainSequenceStack[i].id;
+    sequenceDictArray.push(currentDict);
+  }
+  return sequenceDictArray;
+}
+
+
+
+function saveCurrentSequence() {
+  let sequenceDictArray = convertSequenceToDicts();
+  if (filenameInput.value != "") {
+    electronAPI.saveSequence(sequenceDictArray, filenameInput.value);
+  } else {
+    alert("Filename cannot be empty");
+  }
+}
+
 
 
 function updateMainStackVisuals() {
@@ -130,20 +155,6 @@ function addDraggability(element) {
         element.style.left = 0 + "px";
 
       } else if (closestPieceIndex != -1) {
-
-        // let otherPiece = mainSequenceStack[closestPieceIndex];
-        // let otherPieceRect = otherPiece.getBoundingClientRect();
-
-        // Element dropped next to stack (insert or place at bottom)
-        // let bottomPosition = otherPieceRect.bottom - otherPieceRect.height;
-        // let leftPosition = otherPieceRect.left - otherPieceRect.width;
-
-        // element.style.top = bottomPosition + "px";
-        // element.style.left = leftPosition + "px";
-
-        // Let go
-        // window.removeEventListener("mousemove", onMove);
-        // window.removeEventListener("mouseup", onUp);
 
         // Add to main stack at closest index found
         mainSequenceStack.splice(closestPieceIndex + 1, 0, element);
