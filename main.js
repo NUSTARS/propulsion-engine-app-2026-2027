@@ -2,13 +2,14 @@
 //
 // main processes
 
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, ipcRenderer, webContents } = require('electron');
 const path = require('node:path')
 const fs = require('node:fs')
 const { SerialPort } = require('serialport')
 const { ByteLengthParser } = require('@serialport/parser-byte-length')
 const { PacketLengthParser } = require('@serialport/parser-packet-length')
 
+const sequenceFilesFolderName = "created_sequences";
 
 let mainWindow;
 let sp;
@@ -78,5 +79,16 @@ ipcMain.on('load-main', (_event, newPage) => {
 
 
 ipcMain.on('save-sequence', (_event, sequenceArray, filename) => {
-  console.log(filename, sequenceArray);
+  jsonData = JSON.stringify(sequenceArray);
+  if (!fs.existsSync(sequenceFilesFolderName)) {
+    fs.mkdirSync(sequenceFilesFolderName);
+  }
+  fs.writeFile(sequenceFilesFolderName + "/" + filename, jsonData, function(err) {
+    if (err) {
+      console.log(err);
+      mainWindow.webContents.send('save-sequence-response', false, err);
+    } else {
+      mainWindow.webContents.send('save-sequence-response', true, err);
+    }
+  })
 });

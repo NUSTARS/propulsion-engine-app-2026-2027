@@ -81,6 +81,15 @@ function saveCurrentSequence() {
 }
 
 
+window.electronAPI.saveSequenceResponse((success, err) => {
+  if (success) {
+    // TODO: alert user of successful save
+  } else {
+    // TODO: alert user of failed save
+  }
+});
+
+
 
 function updateMainStackVisuals() {
   let lastBottom = topBlock.getBoundingClientRect().bottom - dragArea.getBoundingClientRect().top;
@@ -117,6 +126,7 @@ function addDraggability(element) {
     }
 
     function onMove(e) {
+      element.style.zIndex = 100;
       const rect = dragArea.getBoundingClientRect();
       const rawX = e.clientX - rect.left - offsetX;
       const rawY = e.clientY - rect.top - offsetY;
@@ -162,6 +172,7 @@ function addDraggability(element) {
         updateMainStackVisuals();
       }
 
+      element.style.zIndex = 1;
 
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseup", onUp);
