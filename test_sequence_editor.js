@@ -6,6 +6,7 @@
 const dragArea = document.getElementById("dragArea");
 const topBlock = document.getElementById("startBlock");
 const filenameInput = document.getElementById("filenameInput");
+const sequenceButtonArea = document.getElementById("savedSequencesDisplay");
 
 
 // variables
@@ -83,9 +84,10 @@ function saveCurrentSequence() {
 
 window.electronAPI.saveSequenceResponse((success, err) => {
   if (success) {
-    // TODO: alert user of successful save
+    alert("Saved successfully to folder 'created_sequences'!");
+    updateSavedSequenceButtons();
   } else {
-    // TODO: alert user of failed save
+    alert(err);
   }
 });
 
@@ -102,6 +104,29 @@ function updateMainStackVisuals() {
     mainSequenceStack[i].style.left = ((topBlockRect.left + topBlockRect.right) / 2) - (mainSequenceStack[i].getBoundingClientRect().width / 2) - dragAreaRect.left + "px";
     lastBottom = mainSequenceStack[i].getBoundingClientRect().bottom - dragAreaRect.top;
   }
+}
+
+
+async function updateSavedSequenceButtons() {
+  const allSequenceFiles = await window.electronAPI.allSequenceFiles();
+
+  // Clear current sequence buttons
+  sequenceButtonArea.replaceChildren();
+  
+  // Create and add sequence buttons
+  for (const file of allSequenceFiles) {
+    var curButton = document.createElement('button');
+    curButton.className = "sequenceReferenceButton";
+    curButton.id = file;
+    curButton.innerHTML = file;
+    curButton.onclick = function() {loadSavedSequence(file);};
+    sequenceButtonArea.appendChild(curButton);
+  }
+}
+
+
+function loadSavedSequence(filename) {
+  console.log("Loading file for ", filename);
 }
 
 
@@ -199,3 +224,5 @@ function createDraggableDiv(name) {
 document.querySelectorAll(".draggableItem").forEach(element => {
   addDraggability(element);
 });
+
+updateSavedSequenceButtons();

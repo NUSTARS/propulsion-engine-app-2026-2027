@@ -36,6 +36,7 @@ const createWindow = () => {
 app.whenReady().then(() => {
   createWindow();
 
+  ipcMain.handle('dialog:allSequenceFiles', readAllSequenceFiles)
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow();
@@ -78,12 +79,13 @@ ipcMain.on('load-main', (_event, newPage) => {
 
 
 
+// Save sequence data to file
 ipcMain.on('save-sequence', (_event, sequenceArray, filename) => {
   jsonData = JSON.stringify(sequenceArray);
   if (!fs.existsSync(sequenceFilesFolderName)) {
     fs.mkdirSync(sequenceFilesFolderName);
   }
-  fs.writeFile(sequenceFilesFolderName + "/" + filename, jsonData, function(err) {
+  fs.writeFile(sequenceFilesFolderName + "/" + filename + ".json", jsonData, function(err) {
     if (err) {
       console.log(err);
       mainWindow.webContents.send('save-sequence-response', false, err);
@@ -92,3 +94,14 @@ ipcMain.on('save-sequence', (_event, sequenceArray, filename) => {
     }
   })
 });
+
+
+async function readAllSequenceFiles() {
+  let filesInFolder = [];
+  const files = fs.readdirSync(sequenceFilesFolderName);
+  for (const file of files) {
+    // Remove .json from end of string (5 characters)
+    filesInFolder.push(file.slice(0, file.length - 5));
+  }
+  return filesInFolder;
+}

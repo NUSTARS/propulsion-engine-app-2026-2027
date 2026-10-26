@@ -13,4 +13,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
     saveSequence: (sequenceArray, filename) => ipcRenderer.send('save-sequence', sequenceArray, filename),
     // Send from main.js
     saveSequenceResponse: (callback) => ipcRenderer.on('save-sequence-response', (_event, success, err) => callback(success, err)),
+    // Bidirectional -> main.js ->
+    allSequenceFiles: () => ipcRenderer.invoke('dialog:allSequenceFiles')
 });

@@ -152,3 +152,28 @@ button:hover {
   align-items: center;
   display: flex;
 }
+
+.sequenceReferenceButton {
+    background: white;
+    border: 1px solid #a5b1c2;
+    border-radius: 50px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    color: #111111;
+    display: inline-block;
+    margin: 1rem auto;
+    min-width: 180px;
+    overflow: hidden;
+    padding: 15px 25px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+}
+
+.sequenceReferenceButton:hover {
+  background-color: #4e2a8479;
+  cursor: pointer;
+}
+
+#savedSequencesDisplay {
+  border: 1px solid black;
+}
