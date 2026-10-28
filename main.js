@@ -36,7 +36,8 @@ const createWindow = () => {
 app.whenReady().then(() => {
   createWindow();
 
-  ipcMain.handle('dialog:allSequenceFiles', readAllSequenceFiles)
+  ipcMain.handle('dialog:allSequenceFiles', readAllSequenceFiles);
+  ipcMain.handle('dialog:sequenceFileContents', readSequenceFileContents);
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow();
@@ -98,6 +99,9 @@ ipcMain.on('save-sequence', (_event, sequenceArray, filename) => {
 
 async function readAllSequenceFiles() {
   let filesInFolder = [];
+  if (!fs.existsSync(sequenceFilesFolderName)) {
+    fs.mkdirSync(sequenceFilesFolderName);
+  }
   const files = fs.readdirSync(sequenceFilesFolderName);
   for (const file of files) {
     // Remove .json from end of string (5 characters)
@@ -105,3 +109,9 @@ async function readAllSequenceFiles() {
   }
   return filesInFolder;
 }
+
+
+ipcMain.handle('sequenceFileContents', async (event, filename) => {
+  const fileContents = fs.readFileSync(sequenceFilesFolderName + '/' + filename + ".json", 'utf8');
+  return JSON.parse(fileContents)
+});

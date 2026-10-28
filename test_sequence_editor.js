@@ -64,7 +64,10 @@ function convertSequenceToDicts() {
   let sequenceDictArray = [];
   for (let i = 1; i < mainSequenceStack.length; i++) {
     let currentDict = {}
-    currentDict["id"] = mainSequenceStack[i].id;
+
+    currentDict["id"] = mainSequenceStack[i].id ? mainSequenceStack[i].id : "";
+    currentDict["innerText"] = mainSequenceStack[i].innerText ? mainSequenceStack[i].innerText : "";
+
     sequenceDictArray.push(currentDict);
   }
   return sequenceDictArray;
@@ -125,8 +128,37 @@ async function updateSavedSequenceButtons() {
 }
 
 
-function loadSavedSequence(filename) {
-  console.log("Loading file for ", filename);
+async function loadSavedSequence(filename) {
+  const sequenceFileContents = await window.electronAPI.sequenceFileContents(filename);
+  filenameInput.value = filename;
+
+  // Clear current dragArea elements
+  const dragChildren = dragArea.querySelectorAll(".draggableItem");
+  dragChildren.forEach(child => {
+    dragArea.removeChild(child);
+  });
+
+  mainSequenceStack = [topBlock];
+
+  // Create div for each value in json file
+  for (let i = 0; i < sequenceFileContents.length; i++) {
+    // Extract fields from saved file data per div element
+    let id = "id" in sequenceFileContents[i] ? sequenceFileContents[i].id : "";
+    let innerText = "innerText" in sequenceFileContents[i] ? sequenceFileContents[i].innerText : "";
+
+    // Create div and add to stack (read in order)
+    var curDiv = document.createElement('div');
+
+    curDiv.className = "draggableItem";
+    curDiv.id = id;
+    curDiv.innerText = innerText;
+
+
+    addDraggability(curDiv);
+    dragArea.appendChild(curDiv);
+    mainSequenceStack.push(curDiv);
+  }
+  updateMainStackVisuals();
 }
 
 
