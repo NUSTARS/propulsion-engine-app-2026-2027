@@ -176,4 +176,14 @@ button:hover {
 
 #savedSequencesDisplay {
   border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+}
+
+
+#pageHeaderDiv {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 25% 50% 25%;
+  gap: 1rem;
 }
