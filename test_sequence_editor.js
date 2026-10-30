@@ -7,6 +7,7 @@ const dragArea = document.getElementById("dragArea");
 const topBlock = document.getElementById("startBlock");
 const filenameInput = document.getElementById("filenameInput");
 const sequenceButtonArea = document.getElementById("savedSequencesDisplay");
+const blockCloneStorageDiv = document.getElementById("blockCloneStorage");
 
 
 // variables
@@ -242,11 +243,30 @@ function addDraggability(element) {
 
 
 // When piece button (in left panel) is pressed, create new piece in dragArea
-function createDraggableDiv(name) {
-  var draggableDiv = document.createElement('div');
-  draggableDiv.className = "draggableItem";
-  draggableDiv.id = "testDragBlock";
-  draggableDiv.innerHTML = name;
+function createDraggableDiv(obj) {
+  var draggableDiv;
+
+  if (document.getElementById(obj.id + "Clone")) {
+
+
+    // Block has specific clone to use, use it!
+    draggableDiv = document.getElementById(obj.id + "Clone").cloneNode(true);
+    draggableDiv.id = obj.id;
+
+
+  } else {
+
+
+    // Block is basic, just start from scratch...
+    draggableDiv = document.createElement('div');
+    draggableDiv.className = "draggableItem";
+    draggableDiv.id = "testDragBlock";
+    draggableDiv.innerHTML = obj.innerHTML;
+
+
+  }
+
+
   dragArea.appendChild(draggableDiv);
   addDraggability(draggableDiv);
 }
@@ -256,5 +276,6 @@ function createDraggableDiv(name) {
 document.querySelectorAll(".draggableItem").forEach(element => {
   addDraggability(element);
 });
+
 
 updateSavedSequenceButtons();

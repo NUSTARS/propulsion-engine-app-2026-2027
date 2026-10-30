@@ -15,16 +15,31 @@
 
       <!-- Area where blocks can be selected to be added to drag area (left column) -->
       <div id="pieceArea">
-        <button onclick="createDraggableDiv('test 1')" id="draggableItemButton">Piece 1</button>
-        <button onclick="createDraggableDiv('test 2')" id="draggableItemButton">Piece 2</button>
-        <button onclick="createDraggableDiv('test 3')" id="draggableItemButton">Piece 3</button>
+
+
+        <div class="actionBlocks">
+          <button onclick="createDraggableDiv(this)" id="turnOnBlock">Turn On</button>
+          <button onclick="createDraggableDiv(this)" id="startFlowBlock">Allow Flow of</button>
+          <button onclick="createDraggableDiv(this)" id="stopFlowBlock">Stop Flow of</button>
+          <button onclick="createDraggableDiv(this)" id="waitSecondsBlock">Wait _ Seconds</button>
+        </div>
+
+        <div class="variableBlocks">
+          <button onclick="createDraggableDiv(this)" id="ethanolVariable">Ethanol</button>
+          <button onclick="createDraggableDiv(this)" id="oxygenVariable">Oxygen</button>
+          <button onclick="createDraggableDiv(this)" id="sparkplugVariable">Sparkplug</button>
+        </div>
+
+
       </div>
 
 
       <!-- Main area where blocks are dragged into/put in sequence (center column) -->
       <div id="dragArea">
         <div id="startBlock">Start Block</div>
-        <div class="draggableItem" id="testDragBlock">Draggable Block Test</div>
+
+
+
       </div>
 
 
@@ -42,5 +57,21 @@
         
     </div>
   </body>
+
+
+  <div id="blockCloneStorage">
+
+
+    <!-- WAIT # SECOND(S) BLOCK -->
+    <div class="draggableItem" id="waitSecondsBlockClone">
+      Wait
+      <input type="text" placeholder="#..." />
+      Second(s)
+    </div>
+
+
+  </div>
+
+
   <script src="./test_sequence_editor.js"></script>
 </html>

@@ -187,3 +187,11 @@ button:hover {
   grid-template-columns: 25% 50% 25%;
   gap: 1rem;
 }
+
+
+#waitSecondsBlock {
+  border: 1px solid black;
+  width: auto;
+  height: auto;
+  padding: 5%;
+}
