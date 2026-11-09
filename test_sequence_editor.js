@@ -193,8 +193,14 @@ function addDraggability(element) {
   let cur_x;
 
   element.addEventListener("mousedown", e => {
+    // Do not drag element when clicking into input field box
+    if (e.toElement.nodeName == "INPUT") {
+      return;
+    }
+
     offsetX = e.offsetX;
     offsetY = e.offsetY;
+
 
     // Handle when dragged element is in the main sequence stack
     if (mainSequenceStack.includes(element)) {
