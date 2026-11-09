@@ -69,6 +69,18 @@ function convertSequenceToDicts() {
     currentDict["id"] = mainSequenceStack[i].id ? mainSequenceStack[i].id : "";
     currentDict["innerText"] = mainSequenceStack[i].innerText ? mainSequenceStack[i].innerText : "";
 
+
+    // Check if div has an INPUT field, if so then store its value
+    var input_div = find_first_child_of_type(mainSequenceStack[i], "INPUT");
+    if (input_div) {
+      if (input_div.value) {
+        currentDict["value"] = input_div.value;
+      } else {
+        currentDict["value"] = "0";
+      }
+    }
+
+
     sequenceDictArray.push(currentDict);
   }
   return sequenceDictArray;
@@ -129,6 +141,15 @@ async function updateSavedSequenceButtons() {
 }
 
 
+function find_first_child_of_type(parent_div, type) {
+  var cur_child = parent_div.firstChild;
+  while (cur_child && cur_child.nodeName != type) {
+    cur_child = cur_child.nextSibling;
+  }
+  return cur_child;
+}
+
+
 async function loadSavedSequence(filename) {
   const sequenceFileContents = await window.electronAPI.sequenceFileContents(filename);
   filenameInput.value = filename;
@@ -148,15 +169,14 @@ async function loadSavedSequence(filename) {
     let innerText = "innerText" in sequenceFileContents[i] ? sequenceFileContents[i].innerText : "";
 
     // Create div and add to stack (read in order)
-    var curDiv = document.createElement('div');
-
-    curDiv.className = "draggableItem";
-    curDiv.id = id;
-    curDiv.innerText = innerText;
+    var curDiv = createDraggableDiv(id, innerText);
 
 
-    addDraggability(curDiv);
-    dragArea.appendChild(curDiv);
+    if ("value" in sequenceFileContents[i]) {
+      var input_div = find_first_child_of_type(curDiv, "INPUT");
+      input_div.value = sequenceFileContents[i]["value"];
+    }
+
     mainSequenceStack.push(curDiv);
   }
   updateMainStackVisuals();
@@ -179,7 +199,7 @@ function addDraggability(element) {
     // Handle when dragged element is in the main sequence stack
     if (mainSequenceStack.includes(element)) {
       const elementIndex = mainSequenceStack.indexOf(element);
-      mainSequenceStack.splice(elementIndex, 1); // magic value 1 means remove 1 element
+      mainSequenceStack.splice(elementIndex, 1); // magic value 1 means remove 1 element from mainSequenceStack
       updateMainStackVisuals();
     }
 
@@ -243,15 +263,15 @@ function addDraggability(element) {
 
 
 // When piece button (in left panel) is pressed, create new piece in dragArea
-function createDraggableDiv(obj) {
+function createDraggableDiv(id, innerHTML) {
   var draggableDiv;
 
-  if (document.getElementById(obj.id + "Clone")) {
+  if (document.getElementById(id + "Clone")) {
 
 
     // Block has specific clone to use, use it!
-    draggableDiv = document.getElementById(obj.id + "Clone").cloneNode(true);
-    draggableDiv.id = obj.id;
+    draggableDiv = document.getElementById(id + "Clone").cloneNode(true);
+    draggableDiv.id = id;
 
 
   } else {
@@ -261,7 +281,7 @@ function createDraggableDiv(obj) {
     draggableDiv = document.createElement('div');
     draggableDiv.className = "draggableItem";
     draggableDiv.id = "testDragBlock";
-    draggableDiv.innerHTML = obj.innerHTML;
+    draggableDiv.innerHTML = innerHTML;
 
 
   }
@@ -269,6 +289,7 @@ function createDraggableDiv(obj) {
 
   dragArea.appendChild(draggableDiv);
   addDraggability(draggableDiv);
+  return draggableDiv;
 }
 
 

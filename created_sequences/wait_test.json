@@ -1,1 +1,1 @@
-[{"id":"waitSecondsBlock","innerText":"Wait  Second(s)"},{"id":"testDragBlock","innerText":"Allow Flow of"},{"id":"testDragBlock","innerText":"Stop Flow of"}]
+[{"id":"testDragBlock","innerText":"Allow Flow of"},{"id":"waitSecondsBlock","innerText":"Wait  Second(s)","value":"9"},{"id":"testDragBlock","innerText":"Stop Flow of"}]

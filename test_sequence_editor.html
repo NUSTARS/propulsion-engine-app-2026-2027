@@ -18,16 +18,16 @@
 
 
         <div class="actionBlocks">
-          <button onclick="createDraggableDiv(this)" id="turnOnBlock">Turn On</button>
-          <button onclick="createDraggableDiv(this)" id="startFlowBlock">Allow Flow of</button>
-          <button onclick="createDraggableDiv(this)" id="stopFlowBlock">Stop Flow of</button>
-          <button onclick="createDraggableDiv(this)" id="waitSecondsBlock">Wait _ Seconds</button>
+          <button onclick="createDraggableDiv(this.id, this.innerHTML)" id="turnOnBlock">Turn On</button>
+          <button onclick="createDraggableDiv(this.id, this.innerHTML)" id="beginFlowBlock">Begin Flow of</button>
+          <button onclick="createDraggableDiv(this.id, this.innerHTML)" id="endFlowBlock">End Flow of</button>
+          <button onclick="createDraggableDiv(this.id, this.innerHTML)" id="waitSecondsBlock">Wait _ Seconds</button>
         </div>
 
         <div class="variableBlocks">
-          <button onclick="createDraggableDiv(this)" id="ethanolVariable">Ethanol</button>
-          <button onclick="createDraggableDiv(this)" id="oxygenVariable">Oxygen</button>
-          <button onclick="createDraggableDiv(this)" id="sparkplugVariable">Sparkplug</button>
+          <button onclick="createDraggableDiv(this.id, this.innerHTML)" id="ethanolVariable">Ethanol</button>
+          <button onclick="createDraggableDiv(this.id, this.innerHTML)" id="oxygenVariable">Oxygen</button>
+          <button onclick="createDraggableDiv(this.id, this.innerHTML)" id="sparkplugVariable">Sparkplug</button>
         </div>
 
 
@@ -59,8 +59,21 @@
   </body>
 
 
-  <div id="blockCloneStorage">
+  <div style="display: none;" id="blockCloneStorage">
 
+
+    <!-- BEGIN FLOW OF BLOCK -->
+    <div class="draggableItem" id="beginFlowBlockClone">
+      Begin Flow of
+      <div></div>
+    </div>
+
+
+    <!-- END FLOW OF BLOCK -->
+    <div class="draggableItem" id="endFlowBlockClone">
+      End Flow of
+      <div></div>
+    </div>
 
     <!-- WAIT # SECOND(S) BLOCK -->
     <div class="draggableItem" id="waitSecondsBlockClone">

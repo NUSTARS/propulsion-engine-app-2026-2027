@@ -194,4 +194,19 @@ button:hover {
   width: auto;
   height: auto;
   padding: 5%;
+  background: white;
+}
+
+#beginFlowBlock {
+  border: 1px solid black;
+  width: auto;
+  height: auto;
+  padding: 5%;
+}
+
+#endFlowBlock {
+  border: 1px solid black;
+  width: auto;
+  height: auto;
+  padding: 5%;
 }
