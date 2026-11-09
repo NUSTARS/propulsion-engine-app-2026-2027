@@ -193,8 +193,8 @@ function addDraggability(element) {
   let cur_x;
 
   element.addEventListener("mousedown", e => {
-    // Do not drag element when clicking into input field box
-    if (e.toElement.nodeName == "INPUT") {
+    // Do not drag element when clicking into input or selection field box
+    if (e.toElement.nodeName == "INPUT" || e.toElement.nodeName == "SELECT") {
       return;
     }
 
