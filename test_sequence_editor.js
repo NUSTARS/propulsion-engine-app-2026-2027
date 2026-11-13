@@ -65,7 +65,7 @@ function convertSequenceToDicts() {
   let sequenceDictArray = [];
   for (let i = 1; i < mainSequenceStack.length; i++) {
     let currentDict = {}
-    
+
 
     currentDict["id"] = mainSequenceStack[i].id ? mainSequenceStack[i].id : "";
 
@@ -192,10 +192,7 @@ async function loadSavedSequence(filename) {
       var select_div = find_first_child_of_type(curDiv, "SELECT");
       select_div.value = sequenceFileContents[i]["option"];
     }
-
-    mainSequenceStack.push(curDiv);
   }
-  updateMainStackVisuals();
 }
 
 
@@ -301,6 +298,8 @@ function createDraggableDiv(id) {
 
   dragArea.appendChild(draggableDiv);
   addDraggability(draggableDiv);
+  mainSequenceStack.push(draggableDiv);
+  updateMainStackVisuals();
   return draggableDiv;
 }
 

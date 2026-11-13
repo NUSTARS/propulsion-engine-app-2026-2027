@@ -220,3 +220,21 @@ button:hover {
   padding: 5%;
   background: white;
 }
+
+
+#turnOnBlock {
+  border: 1px solid black;
+  width: auto;
+  height: auto;
+  padding: 5%;
+  background: white;
+}
+
+
+#turnOffBlock {
+  border: 1px solid black;
+  width: auto;
+  height: auto;
+  padding: 5%;
+  background: white;
+}

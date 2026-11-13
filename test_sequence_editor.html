@@ -19,6 +19,7 @@
 
         <div class="actionBlocks">
           <button onclick="createDraggableDiv(this.id)" id="turnOnBlock">Turn On</button>
+          <button onclick="createDraggableDiv(this.id)" id="turnOffBlock">Turn Off</button>
           <button onclick="createDraggableDiv(this.id)" id="beginFlowBlock">Begin Flow of _ </button>
           <button onclick="createDraggableDiv(this.id)" id="endFlowBlock">End Flow of _ </button>
           <button onclick="createDraggableDiv(this.id)" id="waitSecondsBlock">Wait _ Seconds</button>
@@ -81,6 +82,24 @@
       Wait
       <input style="width: 50px;" type="text" placeholder="#..." />
       Second(s)
+    </div>
+
+
+    <!-- TURN ON BLOCK -->
+    <div class="draggableItem" id="turnOnBlockClone">
+      Turn On
+      <select>
+        <option value="sparkplug">Sparkplug</option>
+      </select>
+    </div>
+
+
+    <!-- TURN OFF BLOCK -->
+    <div class="draggableItem" id="turnOffBlockClone">
+      Turn Off
+      <select>
+        <option value="sparkplug">Sparkplug</option>
+      </select>
     </div>
 
 
