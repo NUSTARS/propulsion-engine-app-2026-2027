@@ -188,6 +188,14 @@ button:hover {
   gap: 1rem;
 }
 
+.actionBlocks {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+/* Draggable Block Formatting Below */
 
 #waitSecondsBlock {
   border: 1px solid black;
@@ -202,6 +210,7 @@ button:hover {
   width: auto;
   height: auto;
   padding: 5%;
+  background: white;
 }
 
 #endFlowBlock {
@@ -209,4 +218,5 @@ button:hover {
   width: auto;
   height: auto;
   padding: 5%;
+  background: white;
 }

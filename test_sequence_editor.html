@@ -18,16 +18,10 @@
 
 
         <div class="actionBlocks">
-          <button onclick="createDraggableDiv(this.id, this.innerHTML)" id="turnOnBlock">Turn On</button>
-          <button onclick="createDraggableDiv(this.id, this.innerHTML)" id="beginFlowBlock">Begin Flow of</button>
-          <button onclick="createDraggableDiv(this.id, this.innerHTML)" id="endFlowBlock">End Flow of</button>
-          <button onclick="createDraggableDiv(this.id, this.innerHTML)" id="waitSecondsBlock">Wait _ Seconds</button>
-        </div>
-
-        <div class="variableBlocks">
-          <button onclick="createDraggableDiv(this.id, this.innerHTML)" id="ethanolVariable">Ethanol</button>
-          <button onclick="createDraggableDiv(this.id, this.innerHTML)" id="oxygenVariable">Oxygen</button>
-          <button onclick="createDraggableDiv(this.id, this.innerHTML)" id="sparkplugVariable">Sparkplug</button>
+          <button onclick="createDraggableDiv(this.id)" id="turnOnBlock">Turn On</button>
+          <button onclick="createDraggableDiv(this.id)" id="beginFlowBlock">Begin Flow of _ </button>
+          <button onclick="createDraggableDiv(this.id)" id="endFlowBlock">End Flow of _ </button>
+          <button onclick="createDraggableDiv(this.id)" id="waitSecondsBlock">Wait _ Seconds</button>
         </div>
 
 
@@ -80,6 +74,7 @@
         <option value="oxygen">Oxygen</option>
       </select>
     </div>
+
 
     <!-- WAIT # SECOND(S) BLOCK -->
     <div class="draggableItem" id="waitSecondsBlockClone">

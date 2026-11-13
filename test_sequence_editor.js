@@ -65,9 +65,9 @@ function convertSequenceToDicts() {
   let sequenceDictArray = [];
   for (let i = 1; i < mainSequenceStack.length; i++) {
     let currentDict = {}
+    
 
     currentDict["id"] = mainSequenceStack[i].id ? mainSequenceStack[i].id : "";
-    currentDict["innerText"] = mainSequenceStack[i].innerText ? mainSequenceStack[i].innerText : "";
 
 
     // Check if div has an INPUT field, if so then store its value
@@ -77,6 +77,16 @@ function convertSequenceToDicts() {
         currentDict["value"] = input_div.value;
       } else {
         currentDict["value"] = "0";
+      }
+    }
+
+      // Check if div has an SELECT field, if so then store its value
+    var select_div = find_first_child_of_type(mainSequenceStack[i], "SELECT");
+    if (select_div) {
+      if (select_div.value) {
+        currentDict["option"] = select_div.value;
+      } else {
+        currentDict["option"] = "null";
       }
     }
 
@@ -166,15 +176,21 @@ async function loadSavedSequence(filename) {
   for (let i = 0; i < sequenceFileContents.length; i++) {
     // Extract fields from saved file data per div element
     let id = "id" in sequenceFileContents[i] ? sequenceFileContents[i].id : "";
-    let innerText = "innerText" in sequenceFileContents[i] ? sequenceFileContents[i].innerText : "";
 
     // Create div and add to stack (read in order)
-    var curDiv = createDraggableDiv(id, innerText);
+    var curDiv = createDraggableDiv(id);
 
 
+    // Check for presence of "value" (for INPUT field)
     if ("value" in sequenceFileContents[i]) {
       var input_div = find_first_child_of_type(curDiv, "INPUT");
       input_div.value = sequenceFileContents[i]["value"];
+    }
+
+    // Check for presence of "option" (for SELECT field)
+    if ("option" in sequenceFileContents[i]) {
+      var select_div = find_first_child_of_type(curDiv, "SELECT");
+      select_div.value = sequenceFileContents[i]["option"];
     }
 
     mainSequenceStack.push(curDiv);
@@ -269,7 +285,7 @@ function addDraggability(element) {
 
 
 // When piece button (in left panel) is pressed, create new piece in dragArea
-function createDraggableDiv(id, innerHTML) {
+function createDraggableDiv(id) {
   var draggableDiv;
 
   if (document.getElementById(id + "Clone")) {
@@ -278,16 +294,6 @@ function createDraggableDiv(id, innerHTML) {
     // Block has specific clone to use, use it!
     draggableDiv = document.getElementById(id + "Clone").cloneNode(true);
     draggableDiv.id = id;
-
-
-  } else {
-
-
-    // Block is basic, just start from scratch...
-    draggableDiv = document.createElement('div');
-    draggableDiv.className = "draggableItem";
-    draggableDiv.id = "testDragBlock";
-    draggableDiv.innerHTML = innerHTML;
 
 
   }
